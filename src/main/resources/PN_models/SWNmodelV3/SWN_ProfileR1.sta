@@ -1,0 +1,12 @@
+Thru_Think = 0
+Thru_Reduce = 0
+Thru_Map = 0
+Thru_Join2 = 0
+Thru_Fork2 = 0
+Thru_Join1 = 0
+Thru_Fork1 = 0
+Thru_t13|rel_Cores = 0
+Thru_t12|acq_Cores = 0
+Thru_t7|rel_Cores = 0
+Thru_t6|acq_Cores = 0
+Thru_end = 2.10026e-05

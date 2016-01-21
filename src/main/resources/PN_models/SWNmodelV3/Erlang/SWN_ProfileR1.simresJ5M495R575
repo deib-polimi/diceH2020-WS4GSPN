@@ -1,0 +1,22 @@
+
+ ******* Coloured Simulation *******
+
+MEAN NUMBER OF EVENTS : 234.879395
+MAX NUMBER OF EVENTS : 243
+MIN NUMBER OF EVENTS : 1
+
+ ***********************************
+
+Results :         
+Throughput of end (3.000000 ): 1.92972136564e-05 <= X <= 2.60744816727e-05 
+Value 2.27063841483e-05 Mean Value 2.26858476646e-05 Accuracy 14.9372157402
+
+Efficiency ---> 1911 transition firings per second
+Time required for 1376380 events -------> 720
+Simulated time --------> 18756886.457666
+Numero di campioni usati  --------> 549
+Grado di approssimazione --------> 15
+Livello di confidenza  --------> 4
+
+ ***********************************
+

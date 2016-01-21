@@ -1,0 +1,24 @@
+
+ ******* Symbolic Simulation *******
+
+MEAN NUMBER OF EVENTS : 2.801124
+MAX NUMBER OF EVENTS : 6
+MIN NUMBER OF EVENTS : 1
+
+NUMBER OF SYMBOLIC EVENTS: 2.801125 VS NUMBER OF ORDINARY EVENTS: 169.833771
+NUMBER OF ORDINARY EVENTS/NUMBER OF SYMBOLIC EVENTS: 60.630553
+ ***********************************
+
+Results :         
+Throughput of end (2.000000 ): 1.78575330659e-05 <= X <= 2.4129871867e-05 
+Value 2.1002565717e-05 Mean Value 2.09937024664e-05 Accuracy 14.938619834
+
+Efficiency ---> 51554 transition firings per second
+Time required for 1082651 events -------> 21
+Simulated time --------> 14915337.464906
+Numero di campioni usati  --------> 437
+Grado di approssimazione --------> 15
+Livello di confidenza  --------> 4
+
+ ***********************************
+

@@ -1,0 +1,18 @@
+SWN model for Map-Reduce V3
+---------------------------
+Variant of the models in V2: SWN_ProfileR1 (expo y Erlang versions)
+
+SWN model assumptions (differences w.r.t. V2)
+----------------------------------------------
+- The "thinking" time is a timed transition (rate parameter: think)
+  It has been set to think=0.0001 
+- The jobs: J = u Jobs; Jobs=j{1-5} 
+  We fixed 5 jobs.
+
+Analysis (acc. 15%,conf.level 99%)
+-----------------------------------
+Simulation of the exp model (symbolic):
+> swn_sym_sim SWN_ProfileR1 -a 15 -c 6
+
+Simulation of the erlang model (ordinary):
+> ./SWNSIM Erlang/SWN_ProfileR1 -a 15 -c 6
