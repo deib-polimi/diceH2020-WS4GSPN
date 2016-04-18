@@ -14,6 +14,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import it.polimi.diceH2020.launcher.utility.FileUtility;
 
@@ -23,6 +24,7 @@ import it.polimi.diceH2020.launcher.utility.FileUtility;
 @EntityScan("it.polimi.diceH2020.launcher.model")
 @EnableJpaRepositories("it.polimi.diceH2020.launcher.repository")
 @EnableAsync
+@EnableScheduling
 public class LauncherApplication {
 
 	private static Logger logger = Logger.getLogger(LauncherApplication.class.getName());
