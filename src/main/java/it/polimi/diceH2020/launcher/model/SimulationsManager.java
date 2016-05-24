@@ -2,6 +2,7 @@ package it.polimi.diceH2020.launcher.model;
 
 import it.polimi.diceH2020.launcher.States;
 import it.polimi.diceH2020.launcher.utility.Compressor;
+import it.polimi.diceH2020.SPACE4Cloud.shared.settings.CloudType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -36,6 +37,8 @@ public class SimulationsManager {
 	private States state;
 
 	private String resultFilePath;
+	
+	private CloudType cloudType;
 
 	@Column(length = 1000)
 	private String input;
@@ -69,6 +72,7 @@ public class SimulationsManager {
 		type = new String();
 		folder = new String();
 		
+		cloudType = CloudType.Public;
 		state = States.READY;
 	}
 
