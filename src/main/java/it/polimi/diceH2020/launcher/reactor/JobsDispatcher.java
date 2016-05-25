@@ -25,24 +25,24 @@ public class JobsDispatcher extends QueueHandler<InteractiveExperiment> {
 		return jobsQueue.size();
 	}
 	
-	public synchronized void notifyReadyChannel(DiceConsumer consumer){
+	public void notifyReadyChannel(DiceConsumer consumer){
 		notifyChannelStatus(consumer,States.COMPLETED);
 		//System.out.println(channelsInfoList.stream().filter(channelInfo -> channelInfo.getConsumer().equals(consumer)).findFirst().get().getConsumer().getId() + " is ready");
 		sendJobsToFreeChannels();
 	}
 	
-	public synchronized void notifyErrorChannel(DiceConsumer consumer){
+	public void notifyErrorChannel(DiceConsumer consumer){
 		notifyChannelStatus(consumer,States.ERROR);
 	}
 	
-	public synchronized void notifyInterruptedChannel(DiceConsumer consumer){
+	public void notifyInterruptedChannel(DiceConsumer consumer){
 		notifyChannelStatus(consumer,States.INTERRUPTED);
 	}
 	
-	public synchronized void notifyChannelStatus(DiceConsumer consumer, States state ){
-		channelsInfoList.stream().filter(channelInfo -> channelInfo.getConsumer().equals(consumer)).findFirst().get().setState(state);
-		printStatus();
+	public void notifyRunningChannel(DiceConsumer consumer){
+		notifyChannelStatus(consumer,States.RUNNING);
 	}
+	
 	
 	@Scheduled(fixedDelay = 600000, initialDelay = 5000)
 	public void checkWSAvailability(){
@@ -50,22 +50,23 @@ public class JobsDispatcher extends QueueHandler<InteractiveExperiment> {
 		message = res = new String();
 		for(ChannelInfo channel : channelsInfoList){
 			DiceConsumer dc = channel.getConsumer();
+			States channelOldState = channel.getState();
 			try{
 				res = restWrapper.getForObject(set.getFullAddress() + dc.getPort() + "/state", String.class);
 			}catch(Exception e){
-				channel.setState(States.INTERRUPTED);
+				notifyInterruptedChannel(dc);
 				message += dc.getPort()+": NOT working, ";
 				continue;
 			}
 			if(res.equals("ERROR")){
-				channel.setState(States.ERROR);
+				notifyErrorChannel(dc);
 				message += dc.getPort()+": NOT working, ";
 			}else{
-				channel.setState(States.COMPLETED);
-				message += dc.getPort()+": working, ";
+				if(!channelOldState.equals(States.COMPLETED)&&!channelOldState.equals(States.RUNNING)) channel.setState(States.COMPLETED);
+				message += dc.getPort()+":"+channel.getState()+",";
 			}
 		};
-		logger.info(message);
+		logger.info("Cron Job executed. Queue length: "+getQueueSize()+" "+message.substring(0,message.length()-1));
 		sendJobsToFreeChannels();
 	}
 	

@@ -91,14 +91,7 @@ public class DiceConsumer implements Consumer<Event<InteractiveExperiment>>{
 		}
 		intExp.getSimulationsManager().refreshState();
 		ds.updateManager(intExp.getSimulationsManager());
-		//ds.updateBestChannel(id, intExp);  
 		if(executedCorrectly) ds.dispatcher.notifyReadyChannel(this); 
 	}
 	
-//	public boolean isWorking(){
-//		if(state.equals(States.COMPLETED)){
-//			return true;
-//		}
-//		return false;
-//	}
 }
