@@ -86,7 +86,7 @@ public class Experiment {
 		it.polimi.diceH2020.SPACE4Cloud.shared.settings.Settings set = new it.polimi.diceH2020.SPACE4Cloud.shared.settings.Settings();
 		set.setSimDuration(simManager.getSimDuration());
 		set.setSolver(simManager.getSolver());
-		set.setAccuracy(simManager.getAccuracy()/100.0);
+		set.setAccuracy((double)simManager.getAccuracy());
 		set.setCloud(simManager.getCloudType());
 		String res;
 		
@@ -187,12 +187,7 @@ public class Experiment {
 		
 		boolean errorOnWS = spj.getError();
 		e.setExperimentalDuration(sol.getOptimizationTime());
-		if(errorOnWS){
-			e.setResponseTime("error");
-		}else{
-			e.setResponseTime(spj.getDuration().toString());
-			
-		}
+		e.setResponseTime(spj.getDuration().toString());
 		e.setError(errorOnWS);
 		e.setDone(true);
 		e.setNumSolutions(e.getNumSolutions()+1);

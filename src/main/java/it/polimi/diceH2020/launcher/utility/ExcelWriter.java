@@ -61,7 +61,8 @@ public class ExcelWriter {
 	        row.createCell(cellIndex++).setCellValue("Users");
 	        row.createCell(cellIndex++).setCellValue("VMs");
 	        row.createCell(cellIndex++).setCellValue("Response Time");
-	        row.createCell(cellIndex++).setCellValue("Run Time");
+	        row.createCell(cellIndex++).setCellValue("Error");
+	        row.createCell(cellIndex).setCellValue("Run Time");
 	        
 	        for(InteractiveExperiment sim : simulationList){	    
 	            row = simulationSheet.createRow(rowIndex++);
@@ -73,7 +74,8 @@ public class ExcelWriter {
 		        row.createCell(cellIndex++).setCellValue(sim.getNumUsers());
 		        row.createCell(cellIndex++).setCellValue(sim.getNumVMs());
 		        row.createCell(cellIndex++).setCellValue(sim.getResponseTime());
-		        row.createCell(cellIndex++).setCellValue(sim.getExperimentalDuration());	            
+		        row.createCell(cellIndex++).setCellValue(sim.isError());
+		        row.createCell(cellIndex).setCellValue(sim.getExperimentalDuration());	            
 	        }
 	        return workbook;
 	    }
