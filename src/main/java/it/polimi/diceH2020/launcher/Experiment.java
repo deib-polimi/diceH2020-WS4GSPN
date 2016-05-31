@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -84,10 +85,13 @@ public class Experiment {
 		if(!send(nameRSFile, simManager.getDecompressedInputFile(0,3))){return false;}
 		
 		it.polimi.diceH2020.SPACE4Cloud.shared.settings.Settings set = new it.polimi.diceH2020.SPACE4Cloud.shared.settings.Settings();
-		set.setSimDuration(simManager.getSimDuration());
-		set.setSolver(simManager.getSolver());
+		set.setSimDuration((simManager.getSimDuration()));
+		set.setSolver((simManager.getSolver()));
 		set.setAccuracy((double)simManager.getAccuracy());
 		set.setCloud(simManager.getCloudType());
+		
+		logger.info("Accuracy:"+set.getAccuracy()+" Duration:"+set.getSimDuration());
+		
 		String res;
 		
 		try{ res = restWrapper.postForObject(SETTINGS_ENDPOINT, set, String.class); }
