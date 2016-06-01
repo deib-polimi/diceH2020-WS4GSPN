@@ -2,12 +2,17 @@ package it.polimi.diceH2020.launcher.reactor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import it.polimi.diceH2020.SPACE4Cloud.shared.settings.CloudType;
+import it.polimi.diceH2020.launcher.Settings;
 import it.polimi.diceH2020.launcher.States;
 import it.polimi.diceH2020.launcher.model.InteractiveExperiment;
 import it.polimi.diceH2020.launcher.service.DiceConsumer;
@@ -21,8 +26,19 @@ public class JobsDispatcher extends QueueHandler<InteractiveExperiment> {
 	@Autowired
 	private RestCommunicationWrapper restWrapper;
 	
+	@Autowired
+	private Settings settings;
+	
+	private AtomicInteger numPrivateConcurrentExp = new AtomicInteger(0);
+	private int maxNumPrivateConcurrentExp;
+	
 	public int getQueueSize(){
 		return jobsQueue.size();
+	}
+	
+	@PostConstruct
+	private void setupEnvironment(){
+		maxNumPrivateConcurrentExp = settings.getPrivateConcurrentExperiments() ;
 	}
 	
 	public void notifyReadyChannel(DiceConsumer consumer){
@@ -78,6 +94,28 @@ public class JobsDispatcher extends QueueHandler<InteractiveExperiment> {
 		return status;
 	}
 	
+	public int getNumPrivateExperiments(){
+		return numPrivateConcurrentExp.get();
+	}
+	
+	@Override
+	protected int getJobToSend(){
+		for(int nextJob=0; nextJob<jobsQueue.size();nextJob++){
+			if(jobsQueue.get(nextJob).getSimulationsManager().getCloudType().equals(CloudType.Private)){
+				if(numPrivateConcurrentExp.get() < maxNumPrivateConcurrentExp){
+					numPrivateConcurrentExp.incrementAndGet();
+					return nextJob;
+				}
+			}else{
+				return nextJob;
+			}
+		}
+		return -1;
+	}
+	
+	public void signalPrivateExperimentEnd(){
+		numPrivateConcurrentExp.decrementAndGet();
+	}
 	
 	public synchronized void dequeue(){ 
 //		 for (Iterator<InteractiveExperiment> iterator = jobsQueue.iterator(); iterator.hasNext();) {

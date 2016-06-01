@@ -10,9 +10,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import it.polimi.diceH2020.SPACE4Cloud.shared.settings.CloudType;
 import it.polimi.diceH2020.launcher.Experiment;
 import it.polimi.diceH2020.launcher.States;
 import it.polimi.diceH2020.launcher.model.InteractiveExperiment;
+import it.polimi.diceH2020.launcher.reactor.JobsDispatcher;
 import lombok.Data;
 import reactor.bus.Event;
 import reactor.bus.EventBus;
@@ -83,6 +85,9 @@ public class DiceConsumer implements Consumer<Event<InteractiveExperiment>>{
 			}else{
 				intExp.getSimulationsManager().setNumFailedSimulations(intExp.getSimulationsManager().getNumFailedSimulations()+1);
 				intExp.setState(States.ERROR);
+			}
+			if(intExp.getSimulationsManager().getCloudType().equals(CloudType.Private)){
+				ds.signalPrivateExperimentEnd();
 			}
 		}else{
 			intExp.setState(States.ERROR);
